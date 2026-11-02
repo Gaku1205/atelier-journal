@@ -1,5 +1,6 @@
 import { formatFig } from "@/lib/format";
 import type { Figure } from "@/lib/issue";
+import { photoFor } from "@/lib/photos";
 import { Plate } from "./Plate";
 
 type FrameProps = {
@@ -25,10 +26,32 @@ export function Frame({
   bleed,
   className,
 }: FrameProps) {
+  const photo = photoFor(figure.scene);
+  const frameClass = [
+    "frame",
+    `frame--${ratio}`,
+    bleed ? `frame--bleed-${bleed}` : "",
+    photo ? "frame--photo" : "",
+    photo?.night ? "frame--night" : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
   return (
     <figure className={["figure", className].filter(Boolean).join(" ")}>
-      <div className={`frame frame--${ratio}${bleed ? ` frame--bleed-${bleed}` : ""}`}>
-        <Plate scene={figure.scene} label={figure.label} id={id} tone={tone} />
+      <div className={frameClass}>
+        {photo ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            className="plate plate--photo"
+            src={photo.src}
+            alt={photo.alt}
+            loading="lazy"
+            decoding="async"
+            style={{ objectPosition: photo.position }}
+          />
+        ) : (
+          <Plate scene={figure.scene} label={figure.label} id={id} tone={tone} />
+        )}
       </div>
       {caption && figure.caption ? (
         <figcaption className="caption">
