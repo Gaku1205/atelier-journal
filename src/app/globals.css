@@ -533,13 +533,39 @@ a.link-line:focus-visible::after {
   grid-column: 9 / 13;
 }
 
+.feature__text {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: var(--gap);
+  align-items: start;
+}
+
+.feature__text > .kicker {
+  grid-column: 1 / -1;
+}
+
+/* 題は右の列に残り、帯（--bar）の下に潜らない */
 .feature__opening {
-  display: flex;
-  flex-direction: row-reverse;
-  justify-content: space-between;
-  align-items: flex-end;
-  gap: var(--gap);
+  display: contents;
+}
+
+.feature__opening .v-title {
+  grid-column: 2;
+  grid-row: 2 / 4;
+  position: sticky;
+  top: calc(var(--bar) + 20px);
   margin-top: 36px;
+}
+
+.feature__opening .feature__lead {
+  grid-column: 1;
+  grid-row: 2;
+  align-self: end;
+}
+
+.feature__text > .prose {
+  grid-column: 1;
+  grid-row: 3;
 }
 
 .v-title {
@@ -600,7 +626,7 @@ a.link-line:focus-visible::after {
 
 .stagger__small {
   grid-column: 2 / 5;
-  margin-top: clamp(120px, 16vw, 280px);
+  align-self: center; /* 大きな図版の縦の真ん中に置き、上下の空きを半分ずつにする */
 }
 
 .stagger__big {
@@ -1309,7 +1335,7 @@ html.js [data-reveal][data-in] .frame .plate {
 
   .stagger__small {
     grid-column: 1 / 6;
-    margin-top: 42vw;
+    margin-top: 0;
   }
 
   .stagger__big {
