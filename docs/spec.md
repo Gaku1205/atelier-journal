@@ -52,11 +52,18 @@
 
 - 1025px 以上：12 段のグリッド。見出し左 4 段＋中身右 7 段、読み物は図版左 7 段＋文右 4 段
 - 1024px 以下：見出しを上、中身を下に
-- 720px 以下：1 段に積む。ただし読み物1の後半の「小さな図版と大きな図版の互い違い」と、品々の 2 列と下へのずれは残す。横にはみ出さない
+- 720px 以下：1 段に積む。ただし読み物1の後半の「小さな図版と大きな図版の互い違い」と、品々の 2 列と下へのずれは残す。横にはみ出さない。目次の英題（各行の右端のイタリック）は出さない
 
 **図版**
 
-- すべて `src/components/Plate.tsx` の SVG。どれも `role="img"` と `aria-label`（何が写っているか）を持つ
+- 写真（`<img alt>`）の 4 枚：霧の浜（fogBeach）・作業場（workshop）・編み地（knit）・夜の店（nightStore）。絵柄と写真の対応は `src/lib/photos.ts`。`src/components/Frame.tsx` が `.frame` の中に `<img>` で出す（`alt` は写真に合わせた文）。写真の扱いは `docs/design.md`「図版（写真）の扱い」
+- 残りは `src/components/Plate.tsx` の SVG。どれも `role="img"` と `aria-label`（何が写っているか）を持つ
+
+## 公開先
+
+- 今の公開先は Vercel（`vercel.json`）。Git からの自動公開は止めてあり、本番への公開は `.github/scripts/deploy-vercel.sh` が頼む
+- 公開は直下（サブパス無し）。`next.config.ts` に `basePath` は無い
+- `NEXT_PUBLIC_BASE_PATH`：サブパスで出すときに、写真の道の頭に付ける環境変数（`src/lib/asset.ts` の `withBase`）。今は使っていない（空）。`basePath` を足さずに設定すると、写真の道だけが `/サブパス/photos/…` になってずれるので、設定するときは `basePath` の配線と一緒に行う
 
 ## あとで（今は入れない）
 
